@@ -5,12 +5,12 @@ import com.google.android.gms.maps.model.LatLng;
 public class gym {
     private String name, image_source, description;
     private int rating;
-    private String location;
+    private LatLng location;
 
     public gym(){
 
     }
-    public gym(String name, String image_source, String location, int rating, String description){
+    public gym(String name, String image_source, LatLng location, int rating, String description){
         this.name = name;
         this.image_source = image_source;
         this.location = location;
@@ -38,7 +38,7 @@ public class gym {
         return description;
     }
 
-    public void setLocation(String location) {
+    public void setLocation(LatLng location) {
         this.location = location;
     }
 
@@ -50,7 +50,7 @@ public class gym {
         return rating;
     }
 
-    public String getLocation() {
+    public LatLng getLocation() {
         return location;
     }
 }

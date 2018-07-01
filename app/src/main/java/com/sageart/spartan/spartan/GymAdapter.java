@@ -2,6 +2,7 @@ package com.sageart.spartan.spartan;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -50,14 +51,14 @@ public class GymAdapter extends RecyclerView.Adapter<GymAdapter.MyViewHolder> {
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.gym_row, parent, false);
-
+        Log.d("View Holder is running", "Holder running");
         return new MyViewHolder(itemView);
     }
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
         gym gym = gymList.get(position);
         holder.name.setText(gym.getName());
-        holder.rating.setText(gym.getRating());
+//        holder.rating.setText(gym.getRating());
         // loading album cover using Glide library
         Glide.with(mContext).load(gym.getImage_source()).into(holder.gymImage);
 
@@ -66,7 +67,7 @@ public class GymAdapter extends RecyclerView.Adapter<GymAdapter.MyViewHolder> {
 
     @Override
     public int getItemCount() {
-        return 0;
+        return gymList.size();
     }
 
     class MyMenuItemClickListener implements PopupMenu.OnMenuItemClickListener {

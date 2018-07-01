@@ -123,7 +123,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,Location
 
         if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
-            locationManager.requestLocationUpdates(locationManager.GPS_PROVIDER, 2000, 10, mLocationListener);
             if(myGPSposition != null) {
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(myGPSposition, 15));
                 googleMap.addMarker(new MarkerOptions()
@@ -232,7 +231,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,Location
                     mMap.addMarker(markerOptions);
                 }
 
-                Toast.makeText(getContext(), jsonArray.length() + " Supermarkets found!",
+                Toast.makeText(getContext(), jsonArray.length() + " Gyms Found",
                         Toast.LENGTH_LONG).show();
 
 
