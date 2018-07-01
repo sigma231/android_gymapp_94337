@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".book_session">
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginLeft="@dimen/album_title_padding"
+                android:paddingTop="50dp"
+                android:id="@+id/linear_1"
+                >
+                <ImageView
+                    android:layout_width="120dp"
+                    android:layout_height="130dp"
+
+                    />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Name"
+                        android:layout_marginLeft="@dimen/album_title_padding"
+                        android:layout_marginTop="@dimen/album_title_padding"
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Gym"
+                        android:layout_marginTop="@dimen/album_title_padding"
+                        android:layout_marginLeft="@dimen/album_title_padding"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Rating"
+                        android:layout_marginLeft="@dimen/album_title_padding"
+                        android:layout_marginTop="@dimen/album_title_padding"/>
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginLeft="@dimen/album_title_padding"
+                android:layout_below="@+id/linear_1"
+
+                >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+                    <TimePicker
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"></TimePicker>
+                    <Button
+                        android:layout_width="match_parent"
+
+                        android:layout_height="80dp"
+                        android:text="Confirm Session"
+                        android:textColor="#fff"
+                        android:background="@color/colorAccent"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+
+</android.support.constraint.ConstraintLayout>

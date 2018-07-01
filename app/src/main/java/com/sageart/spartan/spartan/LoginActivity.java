@@ -70,36 +70,37 @@ public class LoginActivity extends AppCompatActivity{
         loginButton.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View v){
-                    StringRequest request = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
-                        @Override
-                        public void onResponse(String s) {
-                            Toast.makeText(LoginActivity.this, s , Toast.LENGTH_LONG).show();
-                            if(s.equals("true")){
-//                                Toast.makeText(LoginActivity.this, "Login Successful", Toast.LENGTH_LONG).show();
-                                startActivity(new Intent(LoginActivity.this,MapsActivity.class));
-                            }
-                            else{
-                                Toast.makeText(LoginActivity.this, "Incorrect Details", Toast.LENGTH_LONG).show();
-                            }
-                        }
-                    }, new Response.ErrorListener(){
-                        @Override
-                        public void onErrorResponse(VolleyError volleyError){
-                            Toast.makeText(LoginActivity.this, "Some error occurred -> "+volleyError, Toast.LENGTH_LONG).show();
-                        }
-                    })
+                    startActivity(new Intent(LoginActivity.this,MainActivity.class));
+//                    StringRequest request = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
+//                        @Override
+//                        public void onResponse(String s) {
+//                            Toast.makeText(LoginActivity.this, s , Toast.LENGTH_LONG).show();
+//                            if(s.equals("true")){
+////                                Toast.makeText(LoginActivity.this, "Login Successful", Toast.LENGTH_LONG).show();
+//                                startActivity(new Intent(LoginActivity.this,MainActivity.class));
+//                            }
+//                            else{
+//                                Toast.makeText(LoginActivity.this, "Incorrect Details", Toast.LENGTH_LONG).show();
+//                            }
+//                        }
+//                    }, new Response.ErrorListener(){
+//                        @Override
+//                        public void onErrorResponse(VolleyError volleyError){
+//                            Toast.makeText(LoginActivity.this, "Some error occurred -> "+volleyError, Toast.LENGTH_LONG).show();
+//                        }
+//                    })
                     {
-                        @Override
-                        protected Map<String, String> getParams() throws AuthFailureError {
-                            Map<String, String> parameters = new HashMap<String, String>();
-                            parameters.put("email", emailBox.getText().toString());
-                            parameters.put("password", passwordBox.getText().toString());
-                            return parameters;
-                        }
+//                        @Override
+//                        protected Map<String, String> getParams() throws AuthFailureError {
+//                            Map<String, String> parameters = new HashMap<String, String>();
+//                            parameters.put("email", emailBox.getText().toString());
+//                            parameters.put("password", passwordBox.getText().toString());
+//                            return parameters;
+//                        }
                 };
-                    RequestQueue rQueue = Volley.newRequestQueue(LoginActivity.this);
-                    rQueue.add(request);
-                    request.setRetryPolicy(new DefaultRetryPolicy( 10000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+//                    RequestQueue rQueue = Volley.newRequestQueue(LoginActivity.this);
+//                    rQueue.add(request);
+//                    request.setRetryPolicy(new DefaultRetryPolicy( 10000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
             }
         });
