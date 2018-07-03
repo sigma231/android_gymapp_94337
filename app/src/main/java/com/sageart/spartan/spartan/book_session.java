@@ -11,4 +11,3 @@ public class book_session extends AppCompatActivity {
         setContentView(R.layout.activity_book_session);
     }
 }
-    

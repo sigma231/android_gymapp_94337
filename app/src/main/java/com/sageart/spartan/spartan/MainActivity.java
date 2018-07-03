@@ -52,6 +52,11 @@ public class MainActivity extends AppCompatActivity {
 
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
+        tabLayout.getTabAt(0).setIcon(R.drawable.ic_workout);
+        tabLayout.getTabAt(1).setIcon(R.drawable.ic_place);
+        tabLayout.getTabAt(2).setIcon(R.drawable.ic_timeline);
+
+
 
 
     }
