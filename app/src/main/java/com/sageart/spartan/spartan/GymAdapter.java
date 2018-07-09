@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.maps.model.LatLng;
 
 import org.w3c.dom.Text;
 
@@ -26,18 +27,19 @@ public class GymAdapter extends RecyclerView.Adapter<GymAdapter.MyViewHolder> {
 
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
-        public TextView name, rating;
+        public TextView name, rating, distance;
         public ImageView gymImage;
         public Button getDirections;
         public Button viewTrainers;
+        LatLng location;
 
         public MyViewHolder(View view){
             super(view);
             name = (TextView) view.findViewById(R.id.gym_name);
-            rating = (TextView) view.findViewById(R.id.rating_id);
-            gymImage = (ImageView) view.findViewById(R.id.gym_image);
-            getDirections = (Button) view.findViewById(R.id.getDirections_button);
-            viewTrainers = (Button) view.findViewById(R.id.viewTrainers_button);
+//            rating = (TextView) view.findViewById(R.id.rating);
+//            gymImage = (ImageView) view.findViewById(R.id.gym_image);
+            distance = (TextView) view.findViewById(R.id.gym_distance);
+
 
 
         }
@@ -58,9 +60,8 @@ public class GymAdapter extends RecyclerView.Adapter<GymAdapter.MyViewHolder> {
     public void onBindViewHolder(final MyViewHolder holder, int position) {
         gym gym = gymList.get(position);
         holder.name.setText(gym.getName());
-//        holder.rating.setText(gym.getRating());
-        // loading album cover using Glide library
-        Glide.with(mContext).load(gym.getImage_source()).into(holder.gymImage);
+        double distance = gym.getDistance();
+        holder.distance.setText(Double.toString(distance));
 
 
     }

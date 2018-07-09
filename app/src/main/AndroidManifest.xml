@@ -52,7 +52,8 @@
             android:label="@string/title_activity_maps" />
         <activity android:name=".signup" />
         <activity android:name=".TabActivity" />
-        <activity android:name=".book_session"></activity>
+        <activity android:name=".book_session" />
+        <activity android:name=".create_workout"></activity>
     </application>
 
 </manifest>

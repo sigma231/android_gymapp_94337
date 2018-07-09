@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -40,6 +41,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONObject;
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
@@ -56,12 +58,17 @@ public class LoginActivity extends AppCompatActivity{
     EditText emailBox, passwordBox;
     Button loginButton;
     TextView registerLink;
-    String URL = "http://10.0.2.2:8000/api/login";
+    String URL = "http://gentle-garden-55289.herokuapp.com/api/login";
+    SharedPreferences pref;
+    SharedPreferences.Editor editor;
+    sessions session;
 
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        pref = getSharedPreferences("preferences", MODE_PRIVATE);
+        editor = pref.edit();
 
         emailBox = (EditText) findViewById(R.id.editText);
         passwordBox = (EditText) findViewById(R.id.editText2);
@@ -70,42 +77,69 @@ public class LoginActivity extends AppCompatActivity{
         loginButton.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View v){
-                    startActivity(new Intent(LoginActivity.this,MainActivity.class));
-//                    StringRequest request = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
-//                        @Override
-//                        public void onResponse(String s) {
-//                            Toast.makeText(LoginActivity.this, s , Toast.LENGTH_LONG).show();
-//                            if(s.equals("true")){
-////                                Toast.makeText(LoginActivity.this, "Login Successful", Toast.LENGTH_LONG).show();
-//                                startActivity(new Intent(LoginActivity.this,MainActivity.class));
-//                            }
-//                            else{
-//                                Toast.makeText(LoginActivity.this, "Incorrect Details", Toast.LENGTH_LONG).show();
-//                            }
-//                        }
-//                    }, new Response.ErrorListener(){
-//                        @Override
-//                        public void onErrorResponse(VolleyError volleyError){
-//                            Toast.makeText(LoginActivity.this, "Some error occurred -> "+volleyError, Toast.LENGTH_LONG).show();
-//                        }
-//                    })
+//                    startActivity(new Intent(LoginActivity.this,MainActivity.class));
+
+
+
+
+                    StringRequest request = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
+
+                        @Override
+                       public void onResponse(String s) {
+                            JSONObject response = new JSONObject();
+                            int user_id = -1;
+                            try {
+                               response = new JSONObject(s);
+
+                               user_id = response.getInt("user_id");
+                               String user = Integer.toString(user_id);
+                                SharedPreferences preferences = getSharedPreferences("preferences", MODE_PRIVATE);
+                                SharedPreferences.Editor editor = preferences.edit();
+                                editor.putString("user_id", user);
+                                editor.commit();
+
+
+                            }catch (Exception e){
+                                e.printStackTrace();
+                            }
+
+
+
+                            if(user_id != -1){
+                                Toast.makeText(LoginActivity.this, "Login Successful", Toast.LENGTH_LONG).show();
+                                startActivity(new Intent(LoginActivity.this,MainActivity.class));
+                            }
+                            else{
+                                Toast.makeText(LoginActivity.this, "Incorrect Details", Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    }, new Response.ErrorListener(){
+                        @Override
+                        public void onErrorResponse(VolleyError volleyError){
+                            Toast.makeText(LoginActivity.this, "Some error occurred -> "+volleyError, Toast.LENGTH_LONG).show();
+                        }
+                   })
                     {
-//                        @Override
-//                        protected Map<String, String> getParams() throws AuthFailureError {
-//                            Map<String, String> parameters = new HashMap<String, String>();
-//                            parameters.put("email", emailBox.getText().toString());
-//                            parameters.put("password", passwordBox.getText().toString());
-//                            return parameters;
-//                        }
+                        @Override
+                        protected Map<String, String> getParams() throws AuthFailureError {
+                            Map<String, String> parameters = new HashMap<String, String>();
+                            parameters.put("email", emailBox.getText().toString());
+                            parameters.put("password", passwordBox.getText().toString());
+                            return parameters;
+                        }
                 };
-//                    RequestQueue rQueue = Volley.newRequestQueue(LoginActivity.this);
-//                    rQueue.add(request);
-//                    request.setRetryPolicy(new DefaultRetryPolicy( 10000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+                    RequestQueue rQueue = Volley.newRequestQueue(LoginActivity.this);
+                    rQueue.add(request);
+                    request.setRetryPolicy(new DefaultRetryPolicy( 5000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
             }
         });
 
     }
+    public void launchSignUp(View view){
+        startActivity(new Intent(LoginActivity.this,signup.class));
+    }
+
 
 }
 

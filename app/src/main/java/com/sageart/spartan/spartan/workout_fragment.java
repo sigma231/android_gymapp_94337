@@ -1,5 +1,7 @@
 package com.sageart.spartan.spartan;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -30,16 +32,22 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.content.Context.MODE_PRIVATE;
+
 public class workout_fragment extends Fragment
 {
     View view;
-    String url = "http://10.0.2.2:8000/api/workouts/1";
-    private GymAdapter gymAdapter;
-    private List<gym> gymList;
+    String url = "http://gentle-garden-55289.herokuapp.com/api/workouts/";
+//    private GymAdapter gymAdapter;
+    private List<workout> workoutList;
     private RecyclerView.Adapter adapter;
     private DividerItemDecoration dividerItemDecoration;
     private LinearLayoutManager linearLayoutManager;
+    private double latitude;
+    sessions session;
+    private double longitude;
     public workout_fragment(){
+
 
     }
 
@@ -49,9 +57,11 @@ public class workout_fragment extends Fragment
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState){
         view = inflater.inflate(R.layout.workout_activity,container,false);
         RecyclerView rv = (RecyclerView) view.findViewById(R.id.recycler_view_workouts);
-        gymList = new ArrayList<>();
+        workoutList = new ArrayList<>();
+        latitude = ((MainActivity)getActivity()).getLocationLatitude();
+        longitude = ((MainActivity)getActivity()).getLocationLongitude();
 
-        adapter = new GymAdapter(getContext(), gymList);
+        adapter = new workoutAdapter(getContext(), workoutList);
         linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         dividerItemDecoration = new DividerItemDecoration(rv.getContext(),linearLayoutManager.getOrientation());
@@ -61,9 +71,16 @@ public class workout_fragment extends Fragment
         rv.setAdapter(adapter);
         getData();
 
+
         return view;
     }
+
     private void getData(){
+        SharedPreferences preferences = this.getActivity().getSharedPreferences("preferences",
+                MODE_PRIVATE);
+        String user_id = preferences.getString("user_id", "null");
+        Toast.makeText(getContext(), user_id, Toast.LENGTH_LONG).show();
+        url = this.url + user_id;
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(url, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
@@ -71,14 +88,15 @@ public class workout_fragment extends Fragment
                     try{
                         Log.d("Response", response.toString());
                         JSONObject jsonObject = response.getJSONObject(a);
-                        gym gym_ = new gym();
-                        gym_.setName(jsonObject.getString("gym_id"));
+                        workout workout_ = new workout();
+                        workout_.setTrainerName(jsonObject.getString("trainer_name"));
 //                        gym_.getImage_source();
-                        double latitude = jsonObject.getDouble("trainer_id");
-                        double longitude = jsonObject.getDouble("user_id");
-                        LatLng location = new LatLng(latitude, longitude);
-                        gym_.setLocation(location);
-                        gymList.add(gym_);
+                        workout_.setDate(jsonObject.getString("date"));
+                        workout_.setGymName(jsonObject.getString("gym_name"));
+                        workout_.setSets(jsonObject.getString("sets"));
+                        workout_.setType(jsonObject.getString("type"));
+
+                        workoutList.add(workout_);
                     }
                     catch (Exception e){
                         e.printStackTrace();
@@ -98,7 +116,7 @@ public class workout_fragment extends Fragment
         });
         RequestQueue requestQueue = Volley.newRequestQueue(getContext());
         requestQueue.add(jsonArrayRequest);
-        jsonArrayRequest.setRetryPolicy(new DefaultRetryPolicy( 10000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        jsonArrayRequest.setRetryPolicy(new DefaultRetryPolicy( 5000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
     }
 
 
